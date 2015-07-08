@@ -29,6 +29,7 @@ import org.jclouds.softlayer.compute.strategy.SoftLayerComputeServiceAdapter;
 import org.jclouds.softlayer.domain.SecuritySshKey;
 import org.jclouds.softlayer.domain.VirtualGuest;
 import org.jclouds.softlayer.domain.VirtualGuestBlockDevice;
+import org.jclouds.softlayer.domain.VirtualGuestNetworkComponent;
 import org.jclouds.softlayer.domain.internal.BlockDevice;
 import org.jclouds.softlayer.domain.internal.BlockDeviceTemplateGroup;
 import org.jclouds.softlayer.domain.internal.Datacenter;
@@ -155,10 +156,7 @@ public class VirtualGuestToJson implements Binder {
    }
 
    private Set<NetworkComponent> createNetworkComponents(VirtualGuest virtualGuest) {
-      if (virtualGuest.getPrimaryNetworkComponent() == null && virtualGuest.getPrimaryBackendNetworkComponent() == null) {
-         return null;
-      }
-      ImmutableSet.Builder networkComponents = ImmutableSet.builder();
+      ImmutableSet.Builder<NetworkComponent> networkComponents = ImmutableSet.builder();
       int maxSpeed = SoftLayerComputeServiceAdapter.DEFAULT_MAX_PORT_SPEED;
 
       if (virtualGuest.getPrimaryNetworkComponent() != null && virtualGuest.getPrimaryNetworkComponent().getMaxSpeed() > maxSpeed) {
@@ -167,6 +165,10 @@ public class VirtualGuestToJson implements Binder {
       if (virtualGuest.getPrimaryBackendNetworkComponent() != null && virtualGuest.getPrimaryBackendNetworkComponent().getMaxSpeed() > maxSpeed) {
          maxSpeed = virtualGuest.getPrimaryBackendNetworkComponent().getMaxSpeed();
       }
+      for (VirtualGuestNetworkComponent networkComponent : virtualGuest.getVirtualGuestNetworkComponents()) {
+         maxSpeed = Math.max(maxSpeed, networkComponent.getMaxSpeed());
+      }
+
       networkComponents.add(new NetworkComponent(maxSpeed));
       return networkComponents.build();
    }

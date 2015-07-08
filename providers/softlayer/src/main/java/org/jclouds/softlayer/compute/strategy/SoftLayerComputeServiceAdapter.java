@@ -151,6 +151,9 @@ public class SoftLayerComputeServiceAdapter implements
               .startCpus(cores)
               .maxMemory(template.getHardware().getRam())
               .datacenter(datacenter)
+              .networkComponents(VirtualGuestNetworkComponent.builder()
+                      .speed(maxPortSpeed)
+                      .maxSpeed(maxPortSpeed).build())
               .localDiskFlag(isLocalDisk(diskType));
       // set operating system or blockDeviceTemplateGroup
       Optional<OperatingSystem> optionalOperatingSystem = tryExtractOperatingSystemFrom(imageId);
@@ -181,7 +184,8 @@ public class SoftLayerComputeServiceAdapter implements
          virtualGuestBuilder.primaryNetworkComponent(
                  VirtualGuestNetworkComponent.builder()
                          .networkVlan(NetworkVlan.builder().id(primaryNetworkComponentNetworkVlanId).build())
-                         .speed(maxPortSpeed).build());
+                         .speed(maxPortSpeed)
+                         .maxSpeed(maxPortSpeed).build());
       }
       // set primaryBackendNetworkComponent.networkVlan.id
       if (templateOptions.getPrimaryBackendNetworkComponentNetworkVlanId().isPresent()) {
@@ -189,7 +193,8 @@ public class SoftLayerComputeServiceAdapter implements
          virtualGuestBuilder.primaryBackendNetworkComponent(
                  VirtualGuestNetworkComponent.builder()
                          .networkVlan(NetworkVlan.builder().id(primaryBackendNetworkComponentNetworkVlanId).build())
-                         .speed(maxPortSpeed).build());
+                         .speed(maxPortSpeed)
+                         .maxSpeed(maxPortSpeed).build());
       }
       // set postInstallScriptUri
       if (templateOptions.getPostInstallScriptUri().isPresent()) {
