@@ -25,6 +25,7 @@ import org.jclouds.softlayer.domain.Datacenter;
 import org.jclouds.softlayer.domain.OperatingSystem;
 import org.jclouds.softlayer.domain.VirtualGuest;
 import org.jclouds.softlayer.domain.VirtualGuestBlockDeviceTemplateGroup;
+import org.jclouds.softlayer.domain.VirtualGuestNetworkComponent;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -98,4 +99,40 @@ public class VirtualGuestToJsonTest {
               "\"datacenter\":{\"name\":\"datacenterName\"}}]}");
    }
 
+   @Test
+   public void testVirtualGuestWithNetworkComponent() {
+      HttpRequest request = HttpRequest.builder().method("POST").endpoint("https://api.softlayer.com/rest/v3/SoftLayer_Virtual_Guest").build();
+      VirtualGuestToJson binder = new VirtualGuestToJson(json);
+      VirtualGuest testVirtualGuestWithNetworkComponent = VirtualGuest.builder()
+              .hostname("hostname")
+              .domain("domain")
+              .startCpus(1)
+              .maxMemory(1024)
+              .datacenter(Datacenter.builder()
+                      .name("datacenterName")
+                      .build())
+              .operatingSystem(OperatingSystem.builder().id("123456789")
+                      .operatingSystemReferenceCode("UBUNTU_12_64")
+                      .build())
+              .networkComponents(VirtualGuestNetworkComponent.builder().speed(1000).maxSpeed(1000).build())
+              .localDiskFlag(true)
+              .build();
+
+      request = binder.bindToRequest(request, testVirtualGuestWithNetworkComponent);
+
+      assertEquals(request.getPayload().getRawContent(), "{" +
+              "\"parameters\":[{" +
+              "\"hostname\":\"hostname\"," +
+              "\"domain\":\"domain\"," +
+              "\"startCpus\":1," +
+              "\"maxMemory\":1024," +
+              "\"hourlyBillingFlag\":false," +
+              "\"localDiskFlag\":true," +
+              "\"dedicatedAccountHostOnlyFlag\":false," +
+              "\"privateNetworkOnlyFlag\":false," +
+              "\"operatingSystemReferenceCode\":\"UBUNTU_12_64\"," +
+              "\"datacenter\":{\"name\":\"datacenterName\"}," +
+              "\"networkComponents\":[{\"maxSpeed\":1000}]" +
+              "}]}");
+   }
 }
