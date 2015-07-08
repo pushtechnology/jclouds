@@ -62,7 +62,19 @@ public class VirtualGuestToJsonTest {
       request = binder.bindToRequest(request, virtualGuestWithOS);
 
       assertEquals(request.getPayload().getRawContent(), "{" +
-              "\"parameters\":[{\"hostname\":\"hostname\",\"domain\":\"domain\",\"startCpus\":1,\"maxMemory\":1024,\"hourlyBillingFlag\":false,\"localDiskFlag\":true,\"dedicatedAccountHostOnlyFlag\":false,\"privateNetworkOnlyFlag\":false,\"operatingSystemReferenceCode\":\"UBUNTU_12_64\",\"datacenter\":{\"name\":\"datacenterName\"}}]}");
+              "\"parameters\":[{" +
+              "\"hostname\":\"hostname\"," +
+              "\"domain\":\"domain\"," +
+              "\"startCpus\":1," +
+              "\"maxMemory\":1024," +
+              "\"hourlyBillingFlag\":false," +
+              "\"localDiskFlag\":true," +
+              "\"dedicatedAccountHostOnlyFlag\":false," +
+              "\"privateNetworkOnlyFlag\":false," +
+              "\"operatingSystemReferenceCode\":\"UBUNTU_12_64\"," +
+              "\"datacenter\":{\"name\":\"datacenterName\"}," +
+              "\"networkComponents\":[{\"maxSpeed\":100}]" +
+              "}]}");
    }
 
    @Test
@@ -96,7 +108,9 @@ public class VirtualGuestToJsonTest {
               "\"dedicatedAccountHostOnlyFlag\":false," +
               "\"privateNetworkOnlyFlag\":false," +
               "\"blockDeviceTemplateGroup\":{\"globalIdentifier\":\"ffaafa98-4b4a-4fa7-b9f7-b1bad5ec50f0\"}," +
-              "\"datacenter\":{\"name\":\"datacenterName\"}}]}");
+              "\"datacenter\":{\"name\":\"datacenterName\"}," +
+              "\"networkComponents\":[{\"maxSpeed\":100}]" +
+              "}]}");
    }
 
    @Test
