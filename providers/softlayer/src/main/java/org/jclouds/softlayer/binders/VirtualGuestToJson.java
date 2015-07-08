@@ -165,8 +165,10 @@ public class VirtualGuestToJson implements Binder {
       if (virtualGuest.getPrimaryBackendNetworkComponent() != null && virtualGuest.getPrimaryBackendNetworkComponent().getMaxSpeed() > maxSpeed) {
          maxSpeed = virtualGuest.getPrimaryBackendNetworkComponent().getMaxSpeed();
       }
-      for (VirtualGuestNetworkComponent networkComponent : virtualGuest.getVirtualGuestNetworkComponents()) {
-         maxSpeed = Math.max(maxSpeed, networkComponent.getMaxSpeed());
+      if (virtualGuest.getVirtualGuestNetworkComponents() != null) {
+         for (VirtualGuestNetworkComponent networkComponent : virtualGuest.getVirtualGuestNetworkComponents()) {
+            maxSpeed = Math.max(maxSpeed, networkComponent.getMaxSpeed());
+         }
       }
 
       networkComponents.add(new NetworkComponent(maxSpeed));
