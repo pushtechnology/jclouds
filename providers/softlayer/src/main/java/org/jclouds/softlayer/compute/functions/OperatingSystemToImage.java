@@ -54,6 +54,7 @@ public class OperatingSystemToImage implements Function<OperatingSystem, Image> 
       Optional<String> optOSReferenceCode = fromNullable(softwareLicense.getSoftwareDescription().getReferenceCode());
       Optional<String> optVersion = fromNullable(softwareLicense.getSoftwareDescription().getVersion());
       Optional<String> optLongDescription = fromNullable(softwareLicense.getSoftwareDescription().getLongDescription());
+      Optional<String> optImageId = fromNullable(operatingSystem.getId());
       OsFamily osFamily = OsFamily.UNRECOGNIZED;
       String osVersion = UNRECOGNIZED;
       Integer bits = null;
@@ -83,7 +84,7 @@ public class OperatingSystemToImage implements Function<OperatingSystem, Image> 
               .build();
 
       return new ImageBuilder()
-              .ids(optOSReferenceCode.or(operatingSystem.getId()))
+              .ids(optImageId.or(optOSReferenceCode).get())
               .description(optOSReferenceCode.or(UNRECOGNIZED))
               .operatingSystem(os)
               .status(Image.Status.AVAILABLE)
