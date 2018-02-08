@@ -34,7 +34,7 @@
     <connection>scm:svn:http://jclouds.googlecode.com/svn/trunk/blobstore</connection>
     <developerConnection>scm:svn:https://jclouds.googlecode.com/svn/trunk/blobstore</developerConnection>
     <url>http://jclouds.googlecode.com/svn/trunk/blobstore</url>
-    <tag>rel/jclouds-2.0.2-rc1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>

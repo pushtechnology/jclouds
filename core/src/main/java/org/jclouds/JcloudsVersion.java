@@ -41,7 +41,7 @@ public class JcloudsVersion {
      * see http://semver.org.
      */
     private static final Pattern SEMANTIC_VERSION_PATTERN =
-        Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)(?:-(alpha|beta|rc)\\.(\\d+)|-SNAPSHOT)?");
+        Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)(?:-REAPPT-\\d+(?:\\.\\d){0,2}){0,1}(?:-(alpha|beta|rc)\\.(\\d+)|-SNAPSHOT)?");
     private static final String ALPHA_VERSION_IDENTIFIER = "alpha";
     private static final String BETA_VERSION_IDENTIFIER = "beta";
 
